@@ -14,13 +14,10 @@ pipeline {
             }
         }
 
-        stage('Setup Python') {
+        stage('Validate Python') {
             steps {
                 sh '''
                 python3 --version
-                python3 -m venv venv
-                . venv/bin/activate
-                python -m pip install --upgrade pip
                 '''
             }
         }
