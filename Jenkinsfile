@@ -1,16 +1,16 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.10'
-            args '-u root'
-        }
+    agent any
+ 
+    environment {
+        SCANNER_HOME = tool 'SonarScanner'
     }
-
+ 
     stages {
-
+ 
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                    url: 'https://github.com/aparnaakhilesh/Python-Projects-For-Beginners.git'
             }
         }
 
