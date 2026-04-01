@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/aparnaakhilesh/Python-Projects-For-Beginners.git'
+                    url: 'https://github.com/aparnaakhilesh/5-Python-Projects-For-Beginners.git'
             }
         }
 
