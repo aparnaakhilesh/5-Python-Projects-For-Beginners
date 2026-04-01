@@ -26,23 +26,26 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                    sonar-scanner \
-                    -Dsonar.projectKey=python-beginner-projects \
-                    -Dsonar.sources=.
-                    '''
-                }
-            }
+    steps {
+        withSonarQubeEnv('SonarQube') {
+            sh """
+                ${SCANNER_HOME}/bin/sonar-scanner \
+                -Dsonar.projectKey=python-beginner-projects \
+                -Dsonar.projectName="Python Beginner Projects" \
+                -Dsonar.sources=. \
+                -Dsonar.inclusions=**/*.py \
+                -Dsonar.exclusions=**/*.txt,**/*.key,**/*.md,**/__pycache__/** \
+                -Dsonar.python.version=3.10
+            """
         }
-
-        stage('Run Project') {
+    }
+}
+ 
+        stage('Quality Gate') {
             steps {
-                sh '''
-                source venv/bin/activate
-                echo "Project executed successfully"
-                '''
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
     }
